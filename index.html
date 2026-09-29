@@ -138,35 +138,7 @@ html, body {
   background-size: 11px 11px;
 }
 
-.card-radial {
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse at 22% 16%,
-    rgba(255,255,255,0.24) 0%,
-    rgba(255,255,255,0.06) 36%,
-    transparent 60%
-  );
-}
 
-/* Shimmer — every 2.4s (more frequent as requested) */
-@keyframes cardShimmer {
-  0%   { transform: translateX(-230%) skewX(-18deg); opacity: 0; }
-  5%   { opacity: 1; }
-  30%  { transform: translateX(290%) skewX(-18deg); opacity: 0; }
-  100% { transform: translateX(290%) skewX(-18deg); opacity: 0; }
-}
-.card-shimmer { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
-.card-shimmer::after {
-  content: ''; position: absolute; top: -15%; left: 0;
-  width: 42%; height: 130%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.04) 18%,
-    rgba(255,255,255,0.24) 50%,
-    rgba(255,255,255,0.04) 82%,
-    transparent 100%
-  );
-  animation: cardShimmer 2.4s ease-in-out infinite;
-}
 
 .card-inner {
   position: absolute; inset: 0; z-index: 3;
@@ -708,16 +680,7 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
    IPHONE REDUCED MOTION
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-  }
-}
 
 
 
@@ -867,9 +830,12 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
 
       Powered by dewa
 
-      <div class="powered-dot">
-        d
-      </div>
+<img
+  class="powered-icon"
+  src="https://cdn.discordapp.com/attachments/1034924686645145730/1554626105233776732/logo192.png?backend=b2&ex=6abd91e3&is=6abc4063&hm=c8b3395e01560d3466b80c9e857481f0d8580ee139072fb42ebcc15d7ef2f059&"
+  alt="dewa"
+  style="width:18px;height:18px;object-fit:contain;vertical-align:middle;"
+>
 
     </div>
 
@@ -1341,6 +1307,9 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
     0 5px 16px rgba(173,48,53,.20);
 
 }
+
+
+
 
 
 .faceid-symbol {
@@ -1986,16 +1955,82 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
    REDUCED MOTION
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
 
-  .logo-pulse,
-  .scan-line {
 
-    animation:none;
 
+
+/* =========================================================
+   CARD SHIMMER / BØLGE
+========================================================= */
+
+/* =========================================================
+   ID CARD - BEVÆGENDE LYSBØLGE
+========================================================= */
+
+.id-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Selve den bevægende lysbølge */
+.id-card::after {
+  content: "";
+  position: absolute;
+
+  top: -30%;
+  left: -55%;
+
+  width: 38%;
+  height: 160%;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.03) 20%,
+    rgba(255,255,255,0.30) 50%,
+    rgba(255,255,255,0.03) 80%,
+    transparent 100%
+  );
+
+  transform: skewX(-18deg);
+
+  pointer-events: none;
+
+  z-index: 10;
+
+  animation: idCardWave 2.4s ease-in-out infinite;
+}
+
+@keyframes idCardWave {
+
+  0% {
+    left: -55%;
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  45% {
+    left: 120%;
+    opacity: 1;
+  }
+
+  55% {
+    left: 120%;
+    opacity: 0;
+  }
+
+  100% {
+    left: 120%;
+    opacity: 0;
   }
 
 }
+
+
+
 
 </style>
 
@@ -2442,46 +2477,92 @@ function loginSuccess() {
           <!-- Slide 1: Red e-Boks ID -->
 <div style="flex:0 0 100%; width:100%;">
   <div class="id-card">
+
+    <!-- LYSEFFEKT -->
     <div class="card-radial"></div>
+
+    <!-- BEVÆGENDE BØLGE -->
     <div class="card-shimmer"></div>
 
     <div class="card-inner">
+
+      <!-- HEADER -->
       <div class="card-header">
+
         <div class="card-logo-pill">
           <div class="eboks-icon">
             <span class="eboks-e">e</span>
           </div>
+
           <span class="card-logo-text">Boks</span>
         </div>
 
         <span class="card-type">e-Boks ID</span>
+
       </div>
 
+
+      <!-- BODY -->
       <div class="card-body">
+
+        <!-- BILLEDE -->
         <div class="card-photo">
           <img
             id="cardPhotoDisplay"
             src="card.png"
             alt=""
-            style="width:100%; height:100%; object-fit:cover; display:block;"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;
+              display:block;
+            "
           >
         </div>
 
+
+        <!-- TEKST -->
         <div class="card-text">
-          <div class="card-fl">Navn</div>
-          <div class="card-name" id="cardName">Jamie Johnson</div>
 
-          <div class="card-fl">Fødselsdag</div>
-          <div class="card-dob" id="cardDob">10 Apr, 2008</div>
+          <div class="card-fl">
+            Navn
+          </div>
+
+          <div
+            class="card-name"
+            id="cardName"
+          >
+            Jamie Johnson
+          </div>
+
+
+          <div class="card-fl">
+            Fødselsdag
+          </div>
+
+          <div
+            class="card-dob"
+            id="cardDob"
+          >
+            10 Apr, 2008
+          </div>
+
         </div>
+
       </div>
 
+
+      <!-- FOOTER -->
       <div class="card-footer">
+
         <div class="card-age"></div>
+
       </div>
+
     </div>
   </div>
 </div>
+
 
           <!-- Slide 2: Blue Aldersbevis -->
         <!-- Slide 2: Blue Aldersbevis -->
@@ -2784,9 +2865,8 @@ function loginSuccess() {
     <div style="padding:8px 19px 20px;">
 
       <!-- Kamera -->
-      <div style="
+<div style="
   background:var(--surface);
-  color:var(--text);
   border-radius:22px;
   min-height:88px;
   padding:0 18px;
@@ -2851,9 +2931,9 @@ function loginSuccess() {
 
       <!-- Fjern billede -->
       <button
-        type="button"
-        onclick="removeProfileImage()"
-        style="
+type="button"
+onclick="removeProfileImage()"
+style="
   width:100%;
   height:62px;
   margin-top:42px;
